@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">NasaMediaSearch</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_media">Search Media</string>
+    <string name="image_media">Image Media</string>
+    <string name="media_title">Media Title</string>
+    <string name="media_photographer">Media Photographer</string>
+    <string name="media_short_description">Media Short Description</string>
+    <string name="no_description">No description</string>
+    <string name="media_center">Media Center</string>
+    <string name="text_center">Text center</string>
 </resources>
