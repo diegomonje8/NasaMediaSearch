@@ -12,19 +12,20 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.nauticapps.nasamediasearch.databinding.FragmentHomeBinding
+import es.nauticapps.nasamediasearch.datalayer.NasaItem
 
 
 class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModels()
     lateinit var binding : FragmentHomeBinding
-    lateinit var myAdapter: HomeFragmentAdapterOld
+    lateinit var myAdapter: HomeFragmentAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         binding = FragmentHomeBinding.inflate(inflater, container,false)
 
-        myAdapter = HomeFragmentAdapterOld(listOf(), context)
+        myAdapter = HomeFragmentAdapter(listOf<NasaItem>(), context)
         val myRecyclerView : RecyclerView = binding.myRecyclerList
         myRecyclerView.apply {
             adapter = myAdapter
@@ -32,7 +33,7 @@ class HomeFragment : Fragment() {
             itemAnimator = DefaultItemAnimator()
         }
 
-        viewModel.response.observe( viewLifecycleOwner) { response ->
+        viewModel.getResponse().observe( viewLifecycleOwner) { response ->
             myAdapter.updateList(response)
 
             Log.e("Items", response[0].data.first().title)
@@ -42,7 +43,12 @@ class HomeFragment : Fragment() {
             Log.e("Items", isError.toString())
         }
 
-        viewModel.requestMedia()
+        viewModel.requestMedia(searchText = "")
+
+        binding.outlinedTextField.setEndIconOnClickListener(View.OnClickListener {
+            viewModel.requestMedia(binding.outlinedTextField.editText?.text.toString())
+        })
+
 
         return binding.root
     }

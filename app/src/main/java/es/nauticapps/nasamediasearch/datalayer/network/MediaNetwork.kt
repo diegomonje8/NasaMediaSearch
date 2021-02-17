@@ -23,13 +23,10 @@ class MediaNetwork {
         service = retrofit.create(MediaService::class.java)
     }
 
-    fun requestMediaSearch(): List<NasaItem> {
+    suspend fun requestMediaSearch(searchText: String): MediaModel {
 
         createRetrofit()
-        //val request: Call<NasaItem> = service.getSearchItems("sun")
-        val request: Call<MediaModel> = service.getMockItems()
-        val listResult = request.execute().body()
-        return listResult?.collection?.items ?: listOf()
+        return service.getSearchItems(searchText)
 
     }
 
