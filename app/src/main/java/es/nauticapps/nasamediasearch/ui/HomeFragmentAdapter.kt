@@ -1,9 +1,9 @@
 package es.nauticapps.nasamediasearch.ui
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import es.nauticapps.nasamediasearch.R
@@ -12,27 +12,35 @@ import es.nauticapps.nasamediasearch.datalayer.NasaItem
 
 class HomeFragmentAdapter(private var nasaItems: List<NasaItem>, private var context: Context?) : RecyclerView.Adapter<HomeFragmentAdapter.ViewHolder>() {
 
-    lateinit var binding: ItemHomeListBinding
-
-    class ViewHolder(binding: ItemHomeListBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemHomeListBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
 
-        binding = DataBindingUtil.inflate<ItemHomeListBinding>(LayoutInflater.from(viewGroup.context), R.layout.item_home_list, viewGroup,false)
-        return ViewHolder(binding)
+        return ViewHolder(ItemHomeListBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false))
+
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val myData = nasaItems[position].data.first()
-        val myImage = nasaItems[position].links.first().href
 
-        binding.txtTitle.text = myData.title
-        binding.txtCenter.text = myData.center
-        binding.txtShortDescription.text = myData.description_508
-        binding.txtLocation.text = myData.location
-        binding.txtPhotographer.text = myData.photographer
+         var myImage = "https://images-assets.nasa.gov/image/PIA17669/PIA17669~thumb.jpg"
+         try  {
+             myImage = nasaItems[position].links.firstOrNull()?.href ?: "https://images-assets.nasa.gov/image/PIA17669/PIA17669~thumb.jpg"
+         }catch(e: Exception ) {
+            Log.e ("NasaMedia Error", "Error catching image")
+         }
 
-        Picasso.with(context).load(myImage).into(binding.imageMedia)
+        viewHolder.binding.txtTitle.text = nasaItems[position].data.firstOrNull()?.title ?: ""
+        viewHolder.binding.txtCenter.text = nasaItems[position].data.firstOrNull()?.center ?: "N/A"
+        viewHolder.binding.txtShortDescription.text = nasaItems[position].data.firstOrNull()?.description_508 ?: "Description Not Available"
+        viewHolder.binding.txtLocation.text = nasaItems[position].data.firstOrNull()?.location ?: "N/A"
+        viewHolder.binding.txtPhotographer.text = nasaItems[position].data.firstOrNull()?.photographer ?: "N/A"
+
+        Picasso.with(context)
+            .load(myImage)
+            .resize(120,120)
+            .centerCrop()
+            .placeholder(R.drawable.ic_mars)
+            .into(viewHolder.binding.imageMedia)
 
     }
 

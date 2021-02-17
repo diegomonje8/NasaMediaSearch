@@ -4,8 +4,8 @@ import es.nauticapps.nasamediasearch.datalayer.network.MediaNetwork
 
 class MediaRepository {
 
-    fun requestMediaSearch(): List<NasaItem> {
-        return MediaNetwork().requestMediaSearch()
+    suspend fun requestMediaSearch(searchText: String): List<NasaItem> {
+        return MediaNetwork().requestMediaSearch(searchText).collection.items
     }
 
 }
