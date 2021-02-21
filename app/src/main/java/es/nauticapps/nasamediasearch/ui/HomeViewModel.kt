@@ -1,18 +1,18 @@
 package es.nauticapps.nasamediasearch.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.content.SharedPreferences
+import androidx.lifecycle.*
 import es.nauticapps.nasamediasearch.base.BaseState
+import es.nauticapps.nasamediasearch.base.NetworkManager
+import es.nauticapps.nasamediasearch.base.NoInternetConnectivity
 import es.nauticapps.nasamediasearch.datalayer.MediaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.lang.Exception
 import java.net.UnknownHostException
 
-class HomeViewModel: ViewModel() {
+class HomeViewModel(app: Application): AndroidViewModel(app) {
 
     //Option 1 LIVE DATA
     //val response : MutableLiveData<List<NasaItem>> by lazy {
@@ -24,21 +24,35 @@ class HomeViewModel: ViewModel() {
     //val response: LiveData<List<NasaItem>> = _response
 
     //Option 3 LIVE DATA: as Option 2 easiest as a function
+
     private val state = MutableLiveData<BaseState>()
     fun getState() : LiveData<BaseState> = state
 
+
+
     fun requestMedia(searchText: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                var text = searchText
-                if (text.isEmpty()) text = "sun"
-                state.postValue(BaseState.Loading())
-                val listResult = MediaRepository().requestMediaSearch(text)
-                state.postValue(BaseState.Normal(HomeListState(listResult)))
-            }catch(e: Exception ) {
-                state.postValue(BaseState.Error(e))
+
+        val isNetworkAvailable = NetworkManager().isNetworkAvailable(getApplication()) //TO DO DEPENDENCES INJECTION
+
+        if (isNetworkAvailable) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    var searchedText = searchText
+                    if (searchedText.isEmpty()) {searchedText = "sun" }
+                    state.postValue(BaseState.Loading())
+                    val listResult = MediaRepository().requestMediaSearch(searchedText)
+                    state.postValue(BaseState.Normal(HomeListState(listResult)))
+                }catch(e: Exception ) {
+                    state.postValue(BaseState.Error(e))
+                }
             }
         }
+        else {
+            state.postValue(BaseState.Error(NoInternetConnectivity()))
+        }
+
+
     }
 }
+
 

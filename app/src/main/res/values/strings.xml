@@ -10,4 +10,14 @@
     <string name="no_description">No description</string>
     <string name="media_center">Media Center</string>
     <string name="text_center">Text center</string>
+    <string name="long_description">Long Description</string>
+    <string name="main_detail_image">Main Detail Image</string>
+    <string name="image_date">Image Date</string>
+    <string name="description_main_image">Description Main Image</string>
+    <string name="ver_url">Ver URL</string>
+    <string name="Lorem_ipsum_long">On Sept. 10, 2017, the Hinode satellite observed an enormous X-class flare burst from an active region on the western edge of the Sun. The video shows the high-energy flare as seen by Hinode\'s X-Ray Telescope. The emission was so bright that the initial blast caused the detector to saturate. The giant explosion sent a huge cloud of superhot plasma zooming into interplanetary space -- a phenomenon known as a coronal mass ejection. Studying large flares like this one with a variety of instruments is key to understanding exactly what causes these dramatic eruptions, and one day predicting them before they occur.</string>
+    <string name="not_available">Not Available</string>
+    <string name="searchText">searchText</string>
+    <string name="read_more">READ MORE</string>
+    <string name="nasa_url">https:/www.nasa.gov</string>
 </resources>
