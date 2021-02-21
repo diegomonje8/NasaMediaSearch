@@ -1,5 +1,7 @@
 package es.nauticapps.nasamediasearch.datalayer
 
+import java.io.Serializable
+
 data class MediaModel(
     val collection: NasaCollection
 )
@@ -16,7 +18,7 @@ data class NasaItem(
     val `data`: List<NasaData>,
     val href: String,
     val links: List<NasaLink>
-)
+):Serializable
 
 data class LinkX(
     val href: String,

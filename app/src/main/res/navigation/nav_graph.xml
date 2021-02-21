@@ -8,5 +8,27 @@
         android:id="@+id/homeFragment2"
         android:name="es.nauticapps.nasamediasearch.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment2_to_descriptionFragment"
+            app:destination="@id/descriptionFragment" />
+        <argument
+            android:name="searchedText"
+            app:argType="string"
+            android:defaultValue="sun" />
+    </fragment>
+    <fragment
+        android:id="@+id/descriptionFragment"
+        android:name="es.nauticapps.nasamediasearch.ui.detail.DescriptionFragment"
+        android:label="DescriptionFragment" >
+        <argument
+            android:name="nasaItem"
+            app:argType="es.nauticapps.nasamediasearch.datalayer.NasaItem" />
+        <action
+            android:id="@+id/action_descriptionFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+        <argument
+            android:name="searchText"
+            app:argType="string" />
+    </fragment>
 </navigation>
