@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
 import es.nauticapps.nasamediasearch.R
+import es.nauticapps.nasamediasearch.base.BaseFragment
 import es.nauticapps.nasamediasearch.base.prettyDate
 import es.nauticapps.nasamediasearch.databinding.FragmentDescriptionBinding
 import es.nauticapps.nasamediasearch.datalayer.NasaItem

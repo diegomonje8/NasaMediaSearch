@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.*
 import es.nauticapps.nasamediasearch.base.BaseState
+import es.nauticapps.nasamediasearch.base.BaseViewModel
 import es.nauticapps.nasamediasearch.base.NetworkManager
 import es.nauticapps.nasamediasearch.base.NoInternetConnectivity
 import es.nauticapps.nasamediasearch.datalayer.MediaRepository
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.net.UnknownHostException
 
-class HomeViewModel(app: Application): AndroidViewModel(app) {
+//class HomeViewModel(app: Application): AndroidViewModel(app) {
+class HomeViewModel(): BaseViewModel<HomeListState>() {
 
     //Option 1 LIVE DATA
     //val response : MutableLiveData<List<NasaItem>> by lazy {
@@ -25,14 +27,9 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
 
     //Option 3 LIVE DATA: as Option 2 easiest as a function
 
-    private val state = MutableLiveData<BaseState>()
-    fun getState() : LiveData<BaseState> = state
-
-
-
     fun requestMedia(searchText: String) {
 
-        val isNetworkAvailable = NetworkManager().isNetworkAvailable(getApplication()) //TO DO DEPENDENCES INJECTION
+        val isNetworkAvailable = true //NetworkManager().isNetworkAvailable(getApplication()) //TO DO DEPENDENCES INJECTION
 
         if (isNetworkAvailable) {
             viewModelScope.launch(Dispatchers.IO) {
